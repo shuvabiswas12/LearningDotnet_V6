@@ -35,6 +35,7 @@ namespace LearningDotnet_V6.Controllers
             {
                 _context.Categories.Add(category);
                 _context.SaveChanges();
+                TempData["success"] = "Category created successfully!";
                 return RedirectToAction("Index");
             }
             return View();
@@ -45,11 +46,13 @@ namespace LearningDotnet_V6.Controllers
         {
             if (id.Equals(null) || id == 0)
             {
+                TempData["error"] = "Category not found!";
                 return NotFound();
             }
             var category = _context.Categories.Find(id);
             if (category == null)
             {
+                TempData["error"] = "Category not found!";
                 return NotFound();
             }
             else return View(category);
@@ -63,6 +66,7 @@ namespace LearningDotnet_V6.Controllers
             {
                 _context.Categories.Update(category);
                 _context.SaveChanges();
+                TempData["success"] = "Category successfully updated!";
                 return RedirectToAction("Index");
             }
             return View();
@@ -73,16 +77,22 @@ namespace LearningDotnet_V6.Controllers
         {
             if (id.Equals(null) || id == 0)
             {
+                TempData["error"] = "Category not found!";
                 return NotFound();
             }
             else
             {
                 var category = _context.Categories.Find(id);
-                if (category == null) { return NotFound(); }
+                if (category == null)
+                {
+                    TempData["error"] = "Category not found!";
+                    return NotFound();
+                }
                 else
                 {
                     _context.Categories.Remove(category);
                     _context.SaveChanges();
+                    TempData["success"] = "Category succesfully deleted!";
                     return RedirectToAction("Index");
                 };
             }
